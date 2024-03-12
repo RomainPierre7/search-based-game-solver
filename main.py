@@ -69,7 +69,7 @@ def show_config(numbers):
     button_frame.pack(pady=20)
     button_config_minimax = tk.Button(button_frame, text="Minimax", bg="blue", fg="white", command=lambda: select_algorithm("minimax"))
     button_config_minimax.pack(side=tk.LEFT, padx=5, pady=5)
-    button_config_alpha = tk.Button(button_frame, text="Alpha-beta pruning", command=lambda: select_algorithm("alpha-beta"))
+    button_config_alpha = tk.Button(button_frame, text="Alpha-beta", command=lambda: select_algorithm("alpha-beta"))
     button_config_alpha.pack(side=tk.LEFT, padx=5, pady=5)
 
     tk.Label(root, text="Select a number:").pack()
