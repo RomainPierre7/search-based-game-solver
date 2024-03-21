@@ -57,6 +57,7 @@ class Game:
         return numbers
     
     def __init__(self, first_player, algorithm, initial_selected_number):
+        self.first_player = first_player
         other_player = "computer" if first_player == "human" else "human"
         self.algorithm = algorithm
         self.state = Node(initial_selected_number, 0, 0, 0, other_player)

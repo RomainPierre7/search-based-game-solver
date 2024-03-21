@@ -107,20 +107,26 @@ def start_game(first_player, algorithm, initial_selected_number):
     bank_label.pack()
     top_space = tk.Frame(root, height=50)
     top_space.pack()
-    button_divide_by_3 = tk.Button(root, text="Divide by 3", command=lambda: human_play(3, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5))
+    button_divide_by_3 = tk.Button(root, text="Divide by 3", command=lambda: human_play(3, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label))
     button_divide_by_3.pack(pady=20)
     if game.state.number % 3 != 0:
         button_divide_by_3.config(state=tk.DISABLED)
-    button_divide_by_4 = tk.Button(root, text="Divide by 4", command=lambda: human_play(4, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5))
+    button_divide_by_4 = tk.Button(root, text="Divide by 4", command=lambda: human_play(4, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label))
     button_divide_by_4.pack(pady=20)
     if game.state.number % 4 != 0:
         button_divide_by_4.config(state=tk.DISABLED)
-    button_divide_by_5 = tk.Button(root, text="Divide by 5", command=lambda: human_play(5, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5))
+    button_divide_by_5 = tk.Button(root, text="Divide by 5", command=lambda: human_play(5, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label))
     button_divide_by_5.pack(pady=20)
     if game.state.number % 5 != 0:
         button_divide_by_5.config(state=tk.DISABLED)
+    top_space = tk.Frame(root, height=50)
+    top_space.pack()
+    info_label = tk.Label(root, text="")
+    info_label.pack()
+    if first_player == "computer":
+        computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label)
 
-def human_play(divisor, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5):
+def human_play(divisor, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label):
     global game
     game.play(divisor)
     number_label.config(text=f"Number: {game.state.number}")
@@ -129,16 +135,19 @@ def human_play(divisor, number_label, score_label, bank_label, button_divide_by_
     button_divide_by_3.config(state=tk.DISABLED)
     button_divide_by_4.config(state=tk.DISABLED)
     button_divide_by_5.config(state=tk.DISABLED)
+
     print(f"========== Game tree after human's move (divide by {divisor})==========")
     game.create_tree()
     game.print_tree()
     if game.state.is_leaf():
         game_over(game.state.score, game.state.game_bank)
         return
-    computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5)
+    computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label)
     
-def computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5):
+def computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label):
     global game
+    info_label.config(text="Computer is thinking...")
+    root.update()
     time.sleep(2)
     divisor = game.get_computer_random_play() # TO CHANGE by "divisor = game.get_computer_play()" when the ai algorithms are implemented
     game.play(divisor)
@@ -154,9 +163,43 @@ def computer_play(number_label, score_label, bank_label, button_divide_by_3, but
     button_divide_by_3.config(state=tk.NORMAL if game.state.number % 3 == 0 else tk.DISABLED)
     button_divide_by_4.config(state=tk.NORMAL if game.state.number % 4 == 0 else tk.DISABLED)
     button_divide_by_5.config(state=tk.NORMAL if game.state.number % 5 == 0 else tk.DISABLED)
+    info_label.config(text=f"Computer played {divisor}. Your turn !")   
 
 def game_over(score, game_bank):
-    pass
+    global game
+    winner = ''
+    result = score
+    if score % 2 == 0:
+        result -= game_bank
+    else:
+        result += game_bank
+    if result % 2 == 0:
+        winner = game.first_player
+    else:
+        winner = "computer" if game.first_player == "human" else "human"
+    print("========== Game over ! ==========")
+    print(f"Score: {score}")
+    print(f"Game bank: {game_bank}")
+    print(f"Result: {result}")
+    print(f"Winner: {winner}")
+    print("=================================")
+    clear_frame()
+    top_space = tk.Frame(root, height=50)
+    top_space.pack()
+    tk.Label(root, text="Game Over !", font=("Arial", 20)).pack()
+    tk.Label(root, text=f"Score: {score}").pack()
+    tk.Label(root, text=f"Game bank: {game_bank}").pack()
+    tk.Label(root, text=f"Result: {result}").pack()
+    tk.Label(root, text=f"Winner: {winner}").pack()
+    top_space = tk.Frame(root, height=50)
+    top_space.pack()
+    button_restart = tk.Button(root, text="Restart", command=restart_game)
+    button_restart.pack()
+
+def restart_game():
+    clear_frame()
+    start_numbers = game_logic.Game.generate_start_numbers()
+    show_config(start_numbers)
 
 def main():
     root = create_gui()
