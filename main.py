@@ -124,6 +124,9 @@ def start_game(first_player, algorithm, initial_selected_number):
     info_label = tk.Label(root, text="")
     info_label.pack()
     if first_player == "computer":
+        button_divide_by_3.config(state=tk.DISABLED)
+        button_divide_by_4.config(state=tk.DISABLED)
+        button_divide_by_5.config(state=tk.DISABLED)
         computer_play(number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label)
 
 def human_play(divisor, number_label, score_label, bank_label, button_divide_by_3, button_divide_by_4, button_divide_by_5, info_label):
