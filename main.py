@@ -29,37 +29,37 @@ def show_config(numbers):
         nonlocal first_player
         first_player = player
         if player == "human":
-            button_config_human.config(bg="blue", fg="white")
-            button_config_computer.config(bg="#d9d9d9", fg="black")
+            button_config_human.config(highlightbackground="blue", highlightthickness=5)
+            button_config_computer.config(highlightbackground="#d9d9d9", highlightthickness=5)
         else:
-            button_config_human.config(bg="#d9d9d9", fg="black")
-            button_config_computer.config(bg="blue", fg="white")
+            button_config_human.config(highlightbackground="#d9d9d9", highlightthickness=5)
+            button_config_computer.config(highlightbackground="blue", highlightthickness=5)
 
     def select_algorithm(algo):
         nonlocal algorithm
         algorithm = algo
         if algo == "minimax":
-            button_config_minimax.config(bg="blue", fg="white")
-            button_config_alpha.config(bg="#d9d9d9", fg="black")
+            button_config_minimax.config(highlightbackground="blue", highlightthickness=5)
+            button_config_alpha.config(highlightbackground="#d9d9d9", highlightthickness=5)
         else:
-            button_config_minimax.config(bg="#d9d9d9", fg="black")
-            button_config_alpha.config(bg="blue", fg="white")
+            button_config_minimax.config(highlightbackground="#d9d9d9", highlightthickness=5)
+            button_config_alpha.config(highlightbackground="blue", highlightthickness=5)
 
     def select_number(number):
         nonlocal initial_selected_number
         initial_selected_number = number
         for btn in buttons_config_number:
             if btn["text"] == str(number):
-                btn.config(bg="blue", fg="white")
+                btn.config(highlightbackground="blue", highlightthickness=5)
             else:
-                btn.config(bg="#d9d9d9", fg="black")
+                btn.config(highlightbackground="#d9d9d9", highlightthickness=5)
 
     top_space = tk.Frame(root, height=75)
     top_space.pack()
     tk.Label(root, text="Select the first player:").pack()
     button_frame = tk.Frame(root)
     button_frame.pack(pady=20)
-    button_config_human = tk.Button(button_frame, text="Human", bg="blue", fg="white", command=lambda: select_first_player("human"))
+    button_config_human = tk.Button(button_frame, text="Human", highlightbackground="blue", highlightthickness=5, command=lambda: select_first_player("human"))
     button_config_human.pack(side=tk.LEFT, padx=5, pady=5)
     button_config_computer = tk.Button(button_frame, text="Computer", command=lambda: select_first_player("computer"))
     button_config_computer.pack(side=tk.LEFT, padx=5, pady=5)
@@ -67,7 +67,7 @@ def show_config(numbers):
     tk.Label(root, text="Select the algorithm:").pack()
     button_frame = tk.Frame(root)
     button_frame.pack(pady=20)
-    button_config_minimax = tk.Button(button_frame, text="Minimax", bg="blue", fg="white", command=lambda: select_algorithm("minimax"))
+    button_config_minimax = tk.Button(button_frame, text="Minimax", highlightbackground="blue", highlightthickness=5, command=lambda: select_algorithm("minimax"))
     button_config_minimax.pack(side=tk.LEFT, padx=5, pady=5)
     button_config_alpha = tk.Button(button_frame, text="Alpha-beta", command=lambda: select_algorithm("alpha-beta"))
     button_config_alpha.pack(side=tk.LEFT, padx=5, pady=5)
@@ -79,11 +79,11 @@ def show_config(numbers):
     for btn in buttons_config_number:
         btn.pack(side=tk.LEFT, padx=5, pady=5)
         if btn["text"] == str(initial_selected_number):
-            btn.config(bg="blue", fg="white")
+            btn.config(highlightbackground="blue", highlightthickness=5)
 
     button_frame = tk.Frame(root)
     button_frame.pack(pady=20)
-    button_config_start = tk.Button(button_frame, text="Start", bg="green", fg="white", command=lambda: start_game(first_player, algorithm, initial_selected_number))
+    button_config_start = tk.Button(button_frame, text="Start", highlightbackground="green", highlightthickness=5, command=lambda: start_game(first_player, algorithm, initial_selected_number))
     button_config_start.pack(side=tk.LEFT, padx=5, pady=5)
 
 def start_game(first_player, algorithm, initial_selected_number):
