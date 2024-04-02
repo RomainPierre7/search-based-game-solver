@@ -107,6 +107,12 @@ class Game:
     
     def get_computer_play(self):
         if self.algorithm == "minimax":
-            return self.minimax() # TO IMPLEMENT
+            return self.minimax()
         elif self.algorithm == "alpha-beta":
-            return self.alpha_beta() # TO IMPLEMENT
+            return self.alpha_beta()
+        
+    def minimax(self):
+        pass # TO IMPLEMENT Phu | Has to return the number to divide by
+
+    def alpha_beta(self):
+        pass # TO IMPLEMENT Zehra | Has to return the number to divide by

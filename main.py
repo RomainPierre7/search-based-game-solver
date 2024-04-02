@@ -152,7 +152,7 @@ def computer_play(number_label, score_label, bank_label, button_divide_by_3, but
     info_label.config(text="Computer is thinking...")
     root.update()
     time.sleep(2)
-    divisor = game.get_computer_random_play() # TO CHANGE by "divisor = game.get_computer_play()" when the ai algorithms are implemented
+    divisor = game.get_computer_play()
     game.play(divisor)
     number_label.config(text=f"Number: {game.state.number}")
     score_label.config(text=f"Score: {game.state.score}")
