@@ -98,12 +98,6 @@ class Game:
             new_state = self.state.divide_by_5()
         new_state.depth = 0
         self.state = new_state
-
-    def get_computer_random_play(self):
-        choice = random.choice([3, 4, 5])
-        while self.state.number % choice != 0:
-            choice = random.choice([3, 4, 5])
-        return choice
     
     def get_computer_play(self):
         if self.algorithm == "minimax":
