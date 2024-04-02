@@ -106,7 +106,7 @@ class Game:
             return self.alpha_beta()
         
     def minimax(self):
-        pass # TO IMPLEMENT Phu | Has to return the number to divide by
+        pass # TO IMPLEMENT Zehra | Has to return the number to divide by
 
     def alpha_beta(self):
-        pass # TO IMPLEMENT Zehra | Has to return the number to divide by
+        pass # TO IMPLEMENT Phu | Has to return the number to divide by
