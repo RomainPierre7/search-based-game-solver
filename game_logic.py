@@ -43,6 +43,29 @@ class Node:
             new_game_bank = self.game_bank + 1 if new_number % 5 == 0 else self.game_bank
             return Node(new_number, new_score, new_game_bank, self.depth + 1, self.other_player())
         return None
+    
+    def alpha_beta(self, alpha, beta, maximizing_player):
+        if self.is_leaf():
+            return self.score
+
+        if maximizing_player:
+            max_eval = float('-inf')
+            for child in self.children:
+                eval = child.alpha_beta(alpha, beta, False)
+                max_eval = max(max_eval, eval)
+                alpha = max(alpha, eval)
+                if beta <= alpha:
+                    break
+            return max_eval
+        else:
+            min_eval = float('inf')
+            for child in self.children:
+                eval = child.alpha_beta(alpha, beta, True)
+                min_eval = min(min_eval, eval)
+                beta = min(beta, eval)
+                if beta <= alpha:
+                    break
+            return min_eval
 
 
 class Game:
@@ -96,17 +119,17 @@ class Game:
             new_state = self.state.divide_by_4()
         elif number == 5:
             new_state = self.state.divide_by_5()
-        new_state.depth = 0
-        self.state = new_state
+        if new_state is not None:
+           new_state.depth = 0
+           self.state = new_state
+        else:
+           print("Invalid move! Please choose a valid divisor.")
     
     def get_computer_play(self):
         if self.algorithm == "minimax":
             return self.minimax()
         elif self.algorithm == "alpha-beta":
-            return self.alpha_beta()
+            return self.state.alpha_beta(float('-inf'), float('inf'), True)
         
     def minimax(self):
         pass # TO IMPLEMENT Zehra | Has to return the number to divide by
-
-    def alpha_beta(self):
-        pass # TO IMPLEMENT Phu | Has to return the number to divide by
