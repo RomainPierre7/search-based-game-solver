@@ -132,4 +132,27 @@ class Game:
             return self.state.alpha_beta(float('-inf'), float('inf'), True)
         
     def minimax(self):
-        pass # TO IMPLEMENT Zehra | Has to return the number to divide by
+        def max_value(node):
+            if node.is_leaf():
+                return node.score
+            v = float('-inf')
+            for child in node.children:
+                v = max(v, min_value(child))
+            return v
+
+        def min_value(node):
+            if node.is_leaf():
+                return node.score
+            v = float('inf')
+            for child in node.children:
+                v = min(v, max_value(child))
+            return v
+
+        best_score = float('-inf')
+        best_move = None
+        for child in self.state.children:
+            score = min_value(child)
+            if score > best_score:
+                best_score = score
+                best_move = child.number
+        return best_move
