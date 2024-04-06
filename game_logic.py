@@ -223,4 +223,4 @@ class Game:
         if self.algorithm == "minimax":
             return self.state.minimax(player='computer', first_player=self.first_player, type='max')
         elif self.algorithm == "alpha-beta":
-            return self.state.alpha_beta(None, player='computer', first_player=self.first_player, type='max')
+            return self.state.alpha_beta(ancestor_intermediate_value=None, player='computer', first_player=self.first_player, type='max')
