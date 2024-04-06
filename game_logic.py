@@ -2,7 +2,7 @@ import random
 
 class Node:
     def __init__(self, number, score, game_bank, depth, player, divided_by=None):
-        # Parameters
+        # Game parameters
         self.number = number
         self.score = score
         self.game_bank = game_bank
@@ -16,6 +16,7 @@ class Node:
         self.intermediate_heuristic = None
         self.heuristic = None
 
+        # Children
         self.children = []
 
     def add_child(self, child):
@@ -132,12 +133,14 @@ class Node:
         if type == 'max':
             if self.intermediate_heuristic != None and ancestor_intermediate_value != None:
                 if self.intermediate_heuristic >= ancestor_intermediate_value:
+                    # Beta cut-off
                     self.heuristic = self.intermediate_heuristic
                     return self.heuristic
         else:
             if self.intermediate_heuristic != None and ancestor_intermediate_value != None:
                 if self.intermediate_heuristic <= ancestor_intermediate_value:
                     self.heuristic = self.intermediate_heuristic
+                    # Alpha cut-off
                     return self.heuristic
 
         other_player = "computer" if player == "human" else "human"
