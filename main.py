@@ -92,7 +92,7 @@ def start_game(first_player, algorithm, initial_selected_number):
     print("First player:", first_player)
     print("Algorithm:", algorithm)
     print("Initial selected number:", initial_selected_number)
-    print("========== Initial game tree (number|score|game_bank) ==========")
+    print("========== Initial game tree (number|score|game_bank)[divided_by] ==========")
     game.create_tree()
     game.print_tree()
 
