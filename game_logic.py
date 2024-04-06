@@ -131,10 +131,27 @@ class Game:
         elif self.algorithm == "alpha-beta":
             return self.state.alpha_beta(float('-inf'), float('inf'), True)
         
+    @staticmethod
+    def heuristic_measure(leaf_node, first_player):
+        check_if_first_player_won = (leaf_node.score + leaf_node.game_bank)%2 == 0
+        if first_player == "computer":
+            if check_if_first_player_won:
+                m = 1
+            else:
+                m = -1
+        else:
+            if check_if_first_player_won:
+                m = -1
+            else:
+                m = 1
+        return m
+
+
+
     def minimax(self):
         def max_value(node):
             if node.is_leaf():
-                return node.score
+                return Game.heuristic_measure(node, self.first_player)
             v = float('-inf')
             for child in node.children:
                 v = max(v, min_value(child))
@@ -142,7 +159,7 @@ class Game:
 
         def min_value(node):
             if node.is_leaf():
-                return node.score
+                return Game.heuristic_measure(node, self.first_player)
             v = float('inf')
             for child in node.children:
                 v = min(v, max_value(child))
@@ -154,5 +171,5 @@ class Game:
             score = min_value(child)
             if score > best_score:
                 best_score = score
-                best_move = child.number
+                best_move = self.state.number / child.number
         return best_move
