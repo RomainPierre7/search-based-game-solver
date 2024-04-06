@@ -108,7 +108,8 @@ class Node:
             
     def alpha_beta(self, ancestor_intermediate_value, player, first_player, type):
         if self.is_leaf():
-            return self.leaf_heuristic_eval(player, first_player, type)
+            self.heuristic = self.leaf_heuristic_eval(player, first_player, type)
+            return self.heuristic
         
         #Check if we can give an intermediate heuristic
         no_heuristic_child = False
@@ -131,11 +132,13 @@ class Node:
         if type == 'max':
             if self.intermediate_heuristic != None and ancestor_intermediate_value != None:
                 if self.intermediate_heuristic >= ancestor_intermediate_value:
-                    return self.intermediate_heuristic
+                    self.heuristic = self.intermediate_heuristic
+                    return self.heuristic
         else:
             if self.intermediate_heuristic != None and ancestor_intermediate_value != None:
                 if self.intermediate_heuristic <= ancestor_intermediate_value:
-                    return self.intermediate_heuristic
+                    self.heuristic = self.intermediate_heuristic
+                    return self.heuristic
 
         other_player = "computer" if player == "human" else "human"
 
@@ -147,6 +150,7 @@ class Node:
                 if eval > max_eval:
                     max_eval = eval
                     best_child = child
+            self.heuristic = max_eval
             return best_child.divided_by
         
         else:
@@ -157,6 +161,7 @@ class Node:
                 if eval < min_eval:
                     min_eval = eval
                     best_child = child
+            self.heuristic = min_eval
             return best_child.divided_by
 
 
