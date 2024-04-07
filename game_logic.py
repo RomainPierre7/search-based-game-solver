@@ -82,6 +82,9 @@ class Node:
                     return -1
                       
     def minimax(self, player, first_player, type):
+        global visited_nodes_counter
+        visited_nodes_counter += 1
+
         if self.is_leaf():
             return self.leaf_heuristic_eval(player, first_player, type)
         
@@ -108,6 +111,9 @@ class Node:
             return best_child.divided_by
             
     def alpha_beta(self, ancestor_intermediate_value, player, first_player, type):
+        global visited_nodes_counter
+        visited_nodes_counter += 1
+
         if self.is_leaf():
             self.heuristic = self.leaf_heuristic_eval(player, first_player, type)
             return self.heuristic
@@ -228,7 +234,11 @@ class Game:
            print("Invalid move! Please choose a valid divisor.")
     
     def get_computer_play(self):
+        global visited_nodes_counter
+        visited_nodes_counter = 0
         if self.algorithm == "minimax":
-            return self.state.minimax(player='computer', first_player=self.first_player, type='max')
+            divisor = self.state.minimax(player='computer', first_player=self.first_player, type='max')
+            return visited_nodes_counter, divisor
         elif self.algorithm == "alpha-beta":
-            return self.state.alpha_beta(ancestor_intermediate_value=None, player='computer', first_player=self.first_player, type='max')
+            divisor = self.state.alpha_beta(ancestor_intermediate_value=None, player='computer', first_player=self.first_player, type='max')
+            return visited_nodes_counter, divisor

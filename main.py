@@ -152,23 +152,25 @@ def computer_play(number_label, score_label, bank_label, button_divide_by_3, but
     info_label.config(text="Computer is thinking...")
     root.update()
     time.sleep(2)
-    divisor = game.get_computer_play()
+    start = time.time()
+    visited_nodes, divisor = game.get_computer_play()
+    end = time.time()
     game.play(divisor)
+    print(f"========== Game tree after computer's move (divide by {divisor})==========")
     number_label.config(text=f"Number: {game.state.number}")
     score_label.config(text=f"Score: {game.state.score}")
     bank_label.config(text=f"Game bank: {game.state.game_bank}")
-    print(f"========== Game tree after computer's move (divide by {divisor})==========")
     game.create_tree()
     game.print_tree()
     if game.state.is_leaf():
-        game_over(game.state.score, game.state.game_bank)
+        game_over(game.state.score, game.state.game_bank, divisor, end - start, visited_nodes)
         return
     button_divide_by_3.config(state=tk.NORMAL if game.state.number % 3 == 0 else tk.DISABLED)
     button_divide_by_4.config(state=tk.NORMAL if game.state.number % 4 == 0 else tk.DISABLED)
     button_divide_by_5.config(state=tk.NORMAL if game.state.number % 5 == 0 else tk.DISABLED)
-    info_label.config(text=f"Computer played {divisor}. Your turn !")   
+    info_label.config(text=f"Computer played {divisor} !\n* Real execution time: {end - start:.5f} seconds \n * Visited nodes: {visited_nodes} \n Your turn !")
 
-def game_over(score, game_bank):
+def game_over(score, game_bank, divisor=None, execution_time=None, visited_nodes=None):
     global game
     winner = ''
     result = score
@@ -194,6 +196,10 @@ def game_over(score, game_bank):
     tk.Label(root, text=f"Game bank: {game_bank}").pack()
     tk.Label(root, text=f"Result: {result}").pack()
     tk.Label(root, text=f"Winner: {winner}").pack()
+    top_space = tk.Frame(root, height=50)
+    top_space.pack()
+    if divisor is not None and execution_time is not None and visited_nodes is not None:
+        tk.Label(root, text=f"Computer played {divisor} !\n* Real execution time: {execution_time:.5f} seconds \n * Visited nodes: {visited_nodes}").pack()
     top_space = tk.Frame(root, height=50)
     top_space.pack()
     button_restart = tk.Button(root, text="Restart", command=restart_game)
